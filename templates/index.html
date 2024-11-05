@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Neutrality</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">TREE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">CO₂ Emission</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Planting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact us</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='power_plant.jpg') }}" class="img-fluid mb-4" alt="Power Plant">
+                <img src="{{ url_for('static', filename='smoke_stack.jpg') }}" class="img-fluid" alt="Smoke Stack">
+            </div>
+            <div class="col-md-6">
+                <h1 class="display-4 mb-3">Carbon Neutrality</h1>
+                <p>Thailand’s government is focusing on achieving ‘Carbon Neutrality’ across all sectors, with the energy sector being the largest source of carbon dioxide (CO2) emissions, making up about 40% of the total. To reduce emissions, it’s important to analyze how different power plants use various fuels. Increased use of fossil fuels like coal and oil leads to higher emissions, while expanding renewable energy sources such as wind and solar can help lower them.</p>
+                <p>By understanding these relationships, the industry can develop effective strategies for carbon neutrality without major disruptions. One practical approach is afforestation, which involves planting trees to absorb CO2. This helps create a more accurate prediction of emissions and supports better decision-making for a sustainable energy future.</p>
+                <img src="{{ url_for('static', filename='forest.jpg') }}" class="img-fluid mt-4" alt="Forest">
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 mb-3">
+        <small>Thailand</small>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
