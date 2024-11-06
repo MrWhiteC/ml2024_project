@@ -6,5 +6,13 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/co2_emission')
+def co2_emission():
+    return render_template('co2_emission.html')
+
+@app.route('/planting')
+def planting():
+    return render_template('planting.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

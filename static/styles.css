@@ -11,17 +11,17 @@ body {
 
 h1 {
     color: #000;
-    font-size: 2.5rem;
+    font-size: 2rem;
     border-bottom: 3px solid #000;
     padding-bottom: 5px;
-}
-
-p {
-    font-size: 1rem;
-    line-height: 1.6;
 }
 
 footer {
     font-size: 0.9rem;
     color: #777;
+}
+
+.custom-img-size {
+    width: 50%; /* Or any other fixed value like 300px */
+    height: auto; /* This maintains the aspect ratio */
 }

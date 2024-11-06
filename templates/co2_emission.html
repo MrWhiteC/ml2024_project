@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}CO₂ Emission Calculator{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="display-4 mb-4">Calculator for CO₂ Emission</h1>
+            <p class="mb-4">Type of power plant and Electrical production capacity per month</p>
+            
+            <form action="#" method="POST" class="mb-4">
+                <div class="form-group mb-3">
+                    <label for="coal" class="form-label">Coal & Lignite (GWh)</label>
+                    <input type="number" id="coal" name="coal" class="form-control" placeholder="Input" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="natural_gas" class="form-label">Natural Gas (GWh)</label>
+                    <input type="number" id="natural_gas" name="natural_gas" class="form-control" placeholder="Input" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="fuel_oil" class="form-label">Fuel Oil (GWh)</label>
+                    <input type="number" id="fuel_oil" name="fuel_oil" class="form-control" placeholder="Input" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="renewable" class="form-label">Renewable Energy (GWh)</label>
+                    <input type="number" id="renewable" name="renewable" class="form-control" placeholder="Input" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="hydro" class="form-label">Hydro Electricity (GWh)</label>
+                    <input type="number" id="hydro" name="hydro" class="form-control" placeholder="Input" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary mt-3">Enter</button>
+            </form>
+            
+            <div class="output-box mt-4 p-3" style="border: 1px solid #ccc; border-radius: 5px;">
+                <h4>CO₂ Emission Output</h4>
+                <p class="mt-2"><strong>Output:</strong> <span id="output-value">[kiloton per year]</span></p>
+                <small class="text-muted">*If CO₂ Emission output is red, click planting.</small>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <img src="{{ url_for('static', filename='power_plant.jpg') }}" class="img-fluid mb-3" alt="Power Plant">
+            <img src="{{ url_for('static', filename='smoke_stack.jpg') }}" class="img-fluid mb-3" alt="Smoke Stack">
+            <img src="{{ url_for('static', filename='hydro_plant.jpg') }}" class="img-fluid mb-3" alt="Hydro Plant">
+            <img src="{{ url_for('static', filename='solar_farm.jpg') }}" class="img-fluid" alt="Solar Farm">
+        </div>
+    </div>
+</div>
+{% endblock %}
