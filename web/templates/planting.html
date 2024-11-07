@@ -5,22 +5,15 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6">
-            <h1 class="display-4 mb-4">Planting</h1>
-            
-            <!-- Map of Thailand with regions labeled -->
-            <div class="text-center">
-                <img src="{{ url_for('static', filename='thailand_map.png') }}" class="img-fluid mb-3" alt="Map of Thailand">
-                <div class="region-labels">
-                    <p><span style="color: #66cdaa;">• North Region</span></p>
-                    <p><span style="color: #ffd700;">• Central Region</span></p>
-                    <p><span style="color: #ff6347;">• Northeast Region</span></p>
-                    <p><span style="color: #f08080;">• East Region</span></p>
-                    <p><span style="color: #87cefa;">• South Region</span></p>
-                </div>
-            </div>
+        <h1 class="display-4 mb-4">Planting</h1>
+        <!-- Centered Thailand Map in the first column -->
+        <div class="col-12 text-center">
+            <img src="{{ url_for('static', filename='thailand_map.jpg') }}" class="img-fluid mb-3 " style="width: 500px; height: auto;" alt="Map of Thailand">
         </div>
+    </div>
 
+    <div class="row">
+        <!-- Left Column for Form and Output -->
         <div class="col-md-6">
             <!-- CO₂ Emission input and region selector -->
             <form action="#" method="POST" class="mb-4">
@@ -31,14 +24,14 @@
 
                 <div class="form-group mb-3">
                     <label for="region" class="form-label">Region</label>
-                    <select id="region" name="region" class="form-select" required>
+                    <select id="region" name="region" class="form-select" required onchange="updatePlantImage()">
                         <option value="" disabled selected>Input</option>
-                        <option value="North">North</option>
-                        <option value="Northeast">Northeast</option>
-                        <option value="West">West</option>
-                        <option value="Central">Central</option>
-                        <option value="East">East</option>
-                        <option value="South">South</option>
+                        <option value="north">North</option>
+                        <option value="northeast">Northeast</option>
+                        <option value="west">West</option>
+                        <option value="central">Central</option>
+                        <option value="east">East</option>
+                        <option value="south">South</option>
                     </select>
                 </div>
 
@@ -48,15 +41,39 @@
             <!-- Output for the number of trees -->
             <div class="output-box mt-4 p-3" style="border: 1px solid #ccc; border-radius: 5px;">
                 <h4>Number of trees</h4>
-                <p class="display-5"><span id="tree-count">59</span></p>
+                <p class="display-5"><span id="tree-count">Output</span></p>
+            </div>
+        </div>
+
+        <!-- Right Column for the Image -->
+        <div class="col-md-6">
+            <div class="text-center mb-4">
+                <!-- Dynamic plant image -->
+                <img id="plant-image" src="{{ url_for('static', filename='default_plant.jpg') }}" class="img-fluid mb-3 frame" alt="Type of plant for each region" style="width: 300px; height: auto;">
+                <p class="text-muted">Type of plant for each region</p>
             </div>
         </div>
     </div>
-
-    <!-- Image to represent the type of plant for each region -->
-    <div class="text-center mt-5">
-        <img src="{{ url_for('static', filename='plant_type.jpg') }}" class="img-fluid mb-3" alt="Type of plant for each region">
-        <p class="text-muted">Type of plant for each region</p>
-    </div>
 </div>
+
+<script>
+    // JavaScript function to update the plant image based on selected region
+    function updatePlantImage() {
+        const region = document.getElementById("region").value;
+        const plantImage = document.getElementById("plant-image");
+
+        // Map region values to corresponding image filenames
+        const plantImages = {
+            north: "{{ url_for('static', filename='plants_north.jpg') }}",
+            northeast: "{{ url_for('static', filename='plants_northeast.jpg') }}",
+            west: "{{ url_for('static', filename='plants_west.jpg') }}",
+            central: "{{ url_for('static', filename='plants_central.jpg') }}",
+            east: "{{ url_for('static', filename='plants_east.jpg') }}",
+            south: "{{ url_for('static', filename='plants_south.jpg') }}"
+        };
+
+        // Update the plant image based on the selected region
+        plantImage.src = plantImages[region];
+    }
+</script>
 {% endblock %}

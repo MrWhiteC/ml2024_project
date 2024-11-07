@@ -22,6 +22,20 @@ footer {
 }
 
 .custom-img-size {
-    width: 50%; /* Or any other fixed value like 300px */
+    width: 100%; /* Or any other fixed value like 300px */
     height: auto; /* This maintains the aspect ratio */
 }
+
+.frame {
+    border: 5px solid #333; /* Border color and width */
+    padding: 10px; /* Space between the image and the border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect for depth */
+    width: 100%; /* Make the frame take the full width of its container */
+    max-width: 300px; /* Set a max-width to ensure images are not too large */
+    height: 300px; /* Set a fixed height to ensure uniform image sizes */
+    object-fit: cover; /* Crop and cover the container while maintaining aspect ratio */
+    display: block; /* Ensure the image is displayed as a block element */
+    margin: 0 auto; /* Center the image horizontally */
+}
+
