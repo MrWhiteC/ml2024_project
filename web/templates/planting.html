@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Planting{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h1 class="display-4 mb-4">Planting</h1>
+            
+            <!-- Map of Thailand with regions labeled -->
+            <div class="text-center">
+                <img src="{{ url_for('static', filename='thailand_map.png') }}" class="img-fluid mb-3" alt="Map of Thailand">
+                <div class="region-labels">
+                    <p><span style="color: #66cdaa;">• North Region</span></p>
+                    <p><span style="color: #ffd700;">• Central Region</span></p>
+                    <p><span style="color: #ff6347;">• Northeast Region</span></p>
+                    <p><span style="color: #f08080;">• East Region</span></p>
+                    <p><span style="color: #87cefa;">• South Region</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- CO₂ Emission input and region selector -->
+            <form action="#" method="POST" class="mb-4">
+                <div class="form-group mb-3">
+                    <label for="co2_emission" class="form-label">CO₂ Emission (kiloton per year)</label>
+                    <input type="number" id="co2_emission" name="co2_emission" class="form-control" placeholder="Input" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="region" class="form-label">Region</label>
+                    <select id="region" name="region" class="form-select" required>
+                        <option value="" disabled selected>Input</option>
+                        <option value="North">North</option>
+                        <option value="Northeast">Northeast</option>
+                        <option value="West">West</option>
+                        <option value="Central">Central</option>
+                        <option value="East">East</option>
+                        <option value="South">South</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Calculate</button>
+            </form>
+
+            <!-- Output for the number of trees -->
+            <div class="output-box mt-4 p-3" style="border: 1px solid #ccc; border-radius: 5px;">
+                <h4>Number of trees</h4>
+                <p class="display-5"><span id="tree-count">59</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image to represent the type of plant for each region -->
+    <div class="text-center mt-5">
+        <img src="{{ url_for('static', filename='plant_type.jpg') }}" class="img-fluid mb-3" alt="Type of plant for each region">
+        <p class="text-muted">Type of plant for each region</p>
+    </div>
+</div>
+{% endblock %}
