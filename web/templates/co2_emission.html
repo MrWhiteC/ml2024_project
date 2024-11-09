@@ -4,49 +4,83 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8">
-            <h1 class="display-4 mb-4">Calculator for CO₂ Emission</h1>
-            <p class="mb-4">Type of power plant and Electrical production capacity per month</p>
-            
-            <form action="#" method="POST" class="mb-4">
-                <div class="form-group mb-3">
-                    <label for="coal" class="form-label">Coal & Lignite (GWh)</label>
-                    <input type="number" id="coal" name="coal" class="form-control" placeholder="Input" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="natural_gas" class="form-label">Natural Gas (GWh)</label>
-                    <input type="number" id="natural_gas" name="natural_gas" class="form-control" placeholder="Input" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="fuel_oil" class="form-label">Fuel Oil (GWh)</label>
-                    <input type="number" id="fuel_oil" name="fuel_oil" class="form-control" placeholder="Input" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="renewable" class="form-label">Renewable Energy (GWh)</label>
-                    <input type="number" id="renewable" name="renewable" class="form-control" placeholder="Input" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="hydro" class="form-label">Hydro Electricity (GWh)</label>
-                    <input type="number" id="hydro" name="hydro" class="form-control" placeholder="Input" required>
-                </div>
-                
-                <button type="submit" class="btn btn-primary mt-3">Enter</button>
-            </form>
-            
-            <div class="output-box mt-4 p-3" style="border: 1px solid #ccc; border-radius: 5px;">
-                <h4>CO₂ Emission Output</h4>
-                <p class="mt-2"><strong>Output:</strong> <span id="output-value">[kiloton per year]</span></p>
-                <small class="text-muted">*If CO₂ Emission output is red, click planting.</small>
-            </div>
-        </div>
+    <div class="calculator-container">
+        <!-- Title -->
+        <div class="calculator-title">Calculator for CO₂ Emission</div>
 
-        <div class="col-md-4">
-            <img src="{{ url_for('static', filename='power_plant.jpg') }}" class="img-fluid mb-3" alt="Power Plant">
-            <img src="{{ url_for('static', filename='smoke_stack.jpg') }}" class="img-fluid mb-3" alt="Smoke Stack">
-            <img src="{{ url_for('static', filename='hydro_plant.jpg') }}" class="img-fluid mb-3" alt="Hydro Plant">
-            <img src="{{ url_for('static', filename='solar_farm.jpg') }}" class="img-fluid" alt="Solar Farm">
-        </div>
+        <!-- Form for CO₂ Calculation -->
+        <form class="mt-3" onsubmit="return false;">
+            <!-- Electrical capacity input -->
+            <div class="form-group">
+                <label for="electricity_capacity">Electrical capacity per year (GWh)</label>
+                <input type="number" id="electricity_capacity" class="form-control" placeholder="Input" required>
+            </div>
+
+            <!-- Power Plant Distribution Inputs -->
+            <div class="form-group">
+                <label>Proportional Distribution of Each Type of Power Plant:</label>
+                <label for="coal_input">Coal & Lignite (%)</label>
+                <input type="number" id="coal_input" class="form-control" placeholder="Input" required>
+
+                <label for="natural_gas_input">Natural Gas (%)</label>
+                <input type="number" id="natural_gas_input" class="form-control" placeholder="Input" required>
+
+                <label for="fuel_oil_input">Fuel Oil (%)</label>
+                <input type="number" id="fuel_oil_input" class="form-control" placeholder="Input" required>
+
+                <label for="renewable_input">Renewable Energy (%)</label>
+                <input type="number" id="renewable_input" class="form-control" placeholder="Input" required>
+
+                <label for="hydro_input">Hydro Electricity (%)</label>
+                <input type="number" id="hydro_input" class="form-control" placeholder="Input" required>
+            </div>
+
+            <!-- Calculate button -->
+            <button type="button" class="btn btn-dark mt-3" onclick="calculateCO2Emission()">ENTER</button>
+
+            <!-- CO₂ Emission output -->
+            <div class="output-box mt-3">
+                <p>Output: <span id="co2_output">0</span> kiloton per year</p>
+            </div>
+        </form>
+
+        <!-- Planting button with hover effect -->
+        <div class="planting-button mt-3">
+            <button class="btn btn-success" onclick="window.location.href='{{ url_for('planting') }}'">
+                <img src="{{ url_for('static', filename='tree_icon.png') }}" alt="Tree" class="tree-icon">
+                Planting
+            </button>
+            <!-- Hover effect for additional trees -->
+            <div class="tree-pop-up">
+                <img src="{{ url_for('static', filename='tree_icon.png') }}" alt="Tree">
+                <img src="{{ url_for('static', filename='tree_icon.png') }}" alt="Tree">
+                <img src="{{ url_for('static', filename='tree_icon.png') }}" alt="Tree">
+            </div>
+        </div>        
     </div>
 </div>
+
+<script>
+    // Sample CO₂ emission calculation function
+    function calculateCO2Emission() {
+        const electricityCapacity = parseFloat(document.getElementById("electricity_capacity").value);
+        const coalPercentage = parseFloat(document.getElementById("coal_input").value);
+        const naturalGasPercentage = parseFloat(document.getElementById("natural_gas_input").value);
+        const fuelOilPercentage = parseFloat(document.getElementById("fuel_oil_input").value);
+        const renewablePercentage = parseFloat(document.getElementById("renewable_input").value);
+        const hydroPercentage = parseFloat(document.getElementById("hydro_input").value);
+
+        // Basic calculation for CO₂ emission based on sample multipliers
+        const co2Output = electricityCapacity * (
+            (coalPercentage * 0.9) +
+            (naturalGasPercentage * 0.6) +
+            (fuelOilPercentage * 0.8) +
+            (renewablePercentage * 0.1) +
+            (hydroPercentage * 0.05)
+        ) / 100;
+
+        // Update CO₂ emission output
+        document.getElementById("co2_output").textContent = co2Output.toFixed(2);
+    }
+</script>
 {% endblock %}

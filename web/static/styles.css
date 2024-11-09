@@ -39,3 +39,69 @@ footer {
     margin: 0 auto; /* Center the image horizontally */
 }
 
+/* Container styling */
+.calculator-container {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+    position: relative;
+}
+
+/* Title styling */
+.calculator-title {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 5px;
+}
+
+/* Form input styling */
+.form-group label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* CO₂ Emission output styling */
+.output-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+}
+
+/* Planting button styling */
+.planting-button {
+    position: relative;
+}
+
+.tree-icon {
+    width: 20px;
+    margin-right: 5px;
+}
+
+/* Pop-up effect with additional trees on hover */
+.planting-button .tree-pop-up {
+    position: absolute;
+    top: 0;
+    right: -50px;
+    display: flex;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.planting-button:hover .tree-pop-up {
+    opacity: 1;
+}
+
+.tree-pop-up img {
+    width: 20px;
+    margin: 0 2px;
+}
