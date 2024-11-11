@@ -1,0 +1,14 @@
+version: '3.9'
+
+services: 
+  web:
+    command: python3 app.py
+    image: mrwhitecat/car_price_predict:a3.0
+    build:
+      context: .
+      dockerfile: .Dockerfile
+    environment:
+      - HOST=0.0.0.0
+      - PORTS=8080
+    ports:
+      - "80:8080"
