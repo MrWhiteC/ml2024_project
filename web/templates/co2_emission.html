@@ -9,7 +9,7 @@
         <div class="calculator-title">Calculator for CO₂ Emission</div>
 
         <!-- Form for CO₂ Calculation -->
-        <form class="mt-3" onsubmit="return false;">
+        <form id="co2Form" class="mt-3" onsubmit="return false;">
             <!-- Electrical capacity input -->
             <div class="form-group">
                 <label for="electricity_capacity">Electrical capacity per year (GWh)</label>
@@ -50,37 +50,48 @@
                 <img src="{{ url_for('static', filename='tree_icon.png') }}" alt="Tree" class="tree-icon">
                 Planting
             </button>
-            <!-- Hover effect for additional trees -->
-            <div class="tree-pop-up">
-                <img src="{{ url_for('static', filename='tree_icon.png') }}" alt="Tree">
-                <img src="{{ url_for('static', filename='tree_icon.png') }}" alt="Tree">
-                <img src="{{ url_for('static', filename='tree_icon.png') }}" alt="Tree">
-            </div>
-        </div>        
+        </div>
     </div>
 </div>
 
 <script>
-    // Sample CO₂ emission calculation function
-    function calculateCO2Emission() {
+    async function calculateCO2Emission() {
         const electricityCapacity = parseFloat(document.getElementById("electricity_capacity").value);
         const coalPercentage = parseFloat(document.getElementById("coal_input").value);
         const naturalGasPercentage = parseFloat(document.getElementById("natural_gas_input").value);
         const fuelOilPercentage = parseFloat(document.getElementById("fuel_oil_input").value);
         const renewablePercentage = parseFloat(document.getElementById("renewable_input").value);
         const hydroPercentage = parseFloat(document.getElementById("hydro_input").value);
+        
+        // Create the data object to send to the backend
+        const data = {
+            electricity_capacity: electricityCapacity,
+            coal_percentage: coalPercentage,
+            natural_gas_percentage: naturalGasPercentage,
+            fuel_oil_percentage: fuelOilPercentage,
+            renewable_percentage: renewablePercentage,
+            hydro_percentage: hydroPercentage
+        };
 
-        // Basic calculation for CO₂ emission based on sample multipliers
-        const co2Output = electricityCapacity * (
-            (coalPercentage * 0.9) +
-            (naturalGasPercentage * 0.6) +
-            (fuelOilPercentage * 0.8) +
-            (renewablePercentage * 0.1) +
-            (hydroPercentage * 0.05)
-        ) / 100;
+        try {
+            // Send data to the Flask server for prediction
+            const response = await fetch('/co2_emission', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
 
-        // Update CO₂ emission output
-        document.getElementById("co2_output").textContent = co2Output.toFixed(2);
+            // Parse the response
+            const result = await response.json();
+
+            // Update the CO₂ emission output on the page
+            document.getElementById("co2_output").textContent = result.co2_emission.toFixed(2);
+        } catch (error) {
+            console.error('Error:', error);
+            alert("There was an error with the calculation.");
+        }
     }
 </script>
 {% endblock %}
