@@ -3,7 +3,7 @@ version: '3.9'
 services: 
   web:
     command: python3 app.py
-    image: mrwhitecat/car_price_predict:v0.1
+    image: mrwhitecat/project2024_co2emission:v0.1
     build:
       context: .
       dockerfile: .Dockerfile
