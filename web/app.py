@@ -62,7 +62,6 @@ def co2_emission():
         return jsonify({'co2_emission': prediction[0]})
 
     # If GET request, render the form for CO₂ emission calculator page
-    # hello world
     return render_template('co2_emission.html')
 
 
