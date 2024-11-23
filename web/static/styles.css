@@ -105,3 +105,40 @@ footer {
     width: 20px;
     margin: 0 2px;
 }
+
+/* Frame Styling */
+.image-frame {
+    width: 300px; /* Fixed width */
+    height: 300px; /* Fixed height */
+    border: 2px solid #ccc; /* Frame border */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensures image doesn't overflow frame */
+    margin: 0 auto; /* Center the frame */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8f8; /* Light background for contrast */
+}
+
+/* Ensure the image fits while maintaining aspect ratio */
+.image-frame img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Styling for the output box */
+.output-box {
+    max-width: 800px;
+    margin: 0 auto; /* Center the box */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+}
+
+/* Text styling */
+.output-box h4 {
+    font-size: 1.5rem;
+}
+
+.output-box .display-4 {
+    font-size: 2.5rem;
+    color: #d9534f; /* Red color for emphasis */
+}

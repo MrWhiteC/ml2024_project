@@ -46,11 +46,20 @@
 
         <!-- Planting button with hover effect -->
         <div class="planting-button mt-3">
-            <button class="btn btn-success" onclick="window.location.href='{{ url_for('planting') }}'">
+            <button 
+                class="btn btn-success" 
+                onclick="redirectToPlantingPage()">
                 <img src="{{ url_for('static', filename='tree_icon.png') }}" alt="Tree" class="tree-icon">
                 Planting
             </button>
         </div>
+        
+        <script>
+            function redirectToPlantingPage() {
+                const co2Emission = document.getElementById("co2_output").textContent;
+                window.location.href = `/planting?co2_emission=${co2Emission}`;
+            }
+        </script>        
     </div>
 </div>
 

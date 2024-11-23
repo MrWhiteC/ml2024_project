@@ -14,7 +14,7 @@ with open('merged_df_encoded.pkl', 'rb') as f:
 # Load the scaler to standardize the features
 with open('scaler_standard.pkl', 'rb') as f:
     scaler = pickle.load(f)
-
+    
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -36,10 +36,10 @@ def co2_emission():
         fuel_oil_percentage = data['fuel_oil_percentage']
         renewable_percentage = data['renewable_percentage']
         hydro_percentage = data['hydro_percentage']
-        month_input = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]  # One-hot encoded for a particular month
+        month_input = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]  # One-hot encoded for a particular month (Jan)
         
         # Preprocess the power plant input data
-        electricity_capacity_per_month = electricity_capacity / 12
+        electricity_capacity_per_month = electricity_capacity * 0.0776922
         coal_input = (coal_percentage / 100) * electricity_capacity_per_month
         natural_gas_input = (natural_gas_percentage / 100) * electricity_capacity_per_month
         fuel_oil_input = (fuel_oil_percentage / 100) * electricity_capacity_per_month
@@ -57,6 +57,9 @@ def co2_emission():
         
         # Make the CO₂ emission prediction using the model
         prediction = model.predict(features_scaled)
+
+        # Multiple month to year
+        prediction = prediction*12.8099757426394
         
         # Return the CO₂ emission result as JSON
         return jsonify({'co2_emission': prediction[0]})
@@ -70,4 +73,4 @@ def planting():
     return render_template('planting.html')
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0',port=8080)
+    app.run(debug=True)

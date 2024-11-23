@@ -8,7 +8,7 @@
         <h1 class="display-4 mb-4">Planting</h1>
         <!-- Centered Thailand Map in the first column -->
         <div class="col-12 text-center">
-            <img src="{{ url_for('static', filename='thailand_map.jpg') }}" class="img-fluid mb-3 " style="width: 500px; height: auto;" alt="Map of Thailand">
+            <img src="{{ url_for('static', filename='thailand_map.jpg') }}" class="img-fluid mb-3" style="width: 500px; height: auto;" alt="Map of Thailand">
         </div>
     </div>
 
@@ -24,7 +24,7 @@
 
                 <div class="form-group mb-3">
                     <label for="region" class="form-label">Region</label>
-                    <select id="region" name="region" class="form-select" required onchange="updatePlantImage()">
+                    <select id="region" name="region" class="form-select" required onchange="updatePlantImage(true)">
                         <option value="" disabled selected>Input</option>
                         <option value="north">North</option>
                         <option value="northeast">Northeast</option>
@@ -35,45 +35,172 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-3">Calculate</button>
+                <button type="button" class="btn btn-primary mt-3" onclick="calculateTreeCount()">Calculate</button>
             </form>
 
             <!-- Output for the number of trees -->
-            <div class="output-box mt-4 p-3" style="border: 1px solid #ccc; border-radius: 5px;">
-                <h4>Number of trees</h4>
-                <p class="display-5"><span id="tree-count">Output</span></p>
+            <div class="output-box mt-4 p-4" style="border: 2px solid #ccc; border-radius: 8px; background-color: #f9f9f9; text-align: center;">
+                <h4 class="mb-3" style="color: #333; font-weight: bold;">Number of Trees Required</h4>
+                <p class="display-4 mb-1" id="tree-count" style="color: #d9534f; font-weight: bold;">Output</p>
+                <p style="color: #555; font-size: 0.9rem;">Calculated based on adjusted CO₂ emissions</p>
             </div>
         </div>
 
         <!-- Right Column for the Image -->
         <div class="col-md-6">
             <div class="text-center mb-4">
-                <!-- Dynamic plant image -->
-                <img id="plant-image" src="{{ url_for('static', filename='default_plant.jpg') }}" class="img-fluid mb-3 frame" alt="Type of plant for each region" style="width: 300px; height: auto;">
-                <p class="text-muted">Type of plant for each region</p>
+                <!-- Dynamic plant image within a styled frame -->
+                <div class="image-frame">
+                    <img id="plant-image" src="{{ url_for('static', filename='default_plant.jpg') }}" class="img-fluid" alt="Type of plant for each region">
+                </div>
+                <p class="text-muted mt-2" id="plant-name">Type of plant for each region</p>
+                
+                <!-- Buttons for navigation -->
+                <div>
+                    <button class="btn btn-secondary me-2" onclick="previousImage()">Previous</button>
+                    <button class="btn btn-secondary" onclick="nextImage()">Next</button>
+                </div>
             </div>
         </div>
+
+        <!-- Important Note about Thailand's Carbon Sequestration -->
+        <div class="mt-4 p-3" style="border: 2px solid #ccc; border-radius: 8px;">
+            <h5 style="color: #dc3545; font-weight: bold;">Important Information</h5>
+            <p style="color: #000000;">
+                Thailand's carbon sequestration potential comes from mangrove forests, natural forests, and urban forests. 
+                In 2023, it can absorb <strong>86 million tons</strong> of carbon dioxide, or approximately 
+                <strong>94,798 kilotons</strong>.
+            </p>
+
+            <p style="color: #000000;">
+                The energy industry sector emits <strong>40.05%</strong> of total carbon dioxide emissions in Thailand.
+            </p>
+            <p style="color: #000000;">
+                Therefore, the carbon dioxide that can be supported for the energy industry is <strong>37966.599 kilotons</strong>.
+            </p>
+        </div>
+
     </div>
 </div>
 
 <script>
-    // JavaScript function to update the plant image based on selected region
-    function updatePlantImage() {
+    // Images and names for each region
+    const plantData = {
+        north: [
+            { src: "{{ url_for('static', filename='Pterocarpus_macrocarpus.jpg') }}", name: "Pterocarpus macrocarpus" },
+            { src: "{{ url_for('static', filename='Dalbergia_cochinchinensis.jpg') }}", name: "Dalbergia cochinchinensis" },
+            { src: "{{ url_for('static', filename='Dipterocarpus_alatus.jpg') }}", name: "Dipterocarpus alatus" },
+            { src: "{{ url_for('static', filename='Tectona_grandis.jpg') }}", name: "Tectona grandis" },
+            { src: "{{ url_for('static', filename='Xylia_xylocarpa.jpg') }}", name: "Xylia xylocarpa" },
+        ],
+        northeast: [
+            { src: "{{ url_for('static', filename='Pterocarpus_macrocarpus.jpg') }}", name: "Pterocarpus macrocarpus" },
+            { src: "{{ url_for('static', filename='Dalbergia_cochinchinensis.jpg') }}", name: "Dalbergia cochinchinensis" },
+            { src: "{{ url_for('static', filename='Dipterocarpus_alatus.jpg') }}", name: "Dipterocarpus alatus" },
+            { src: "{{ url_for('static', filename='Tectona_grandis.jpg') }}", name: "Tectona grandis" },
+        ],
+        // Add similar data for other regions
+        west: [
+            { src: "{{ url_for('static', filename='Pterocarpus_macrocarpus.jpg') }}", name: "Pterocarpus macrocarpus" },
+            { src: "{{ url_for('static', filename='Dipterocarpus_alatus.jpg') }}", name: "Dipterocarpus alatus" },
+            { src: "{{ url_for('static', filename='Tectona_grandis.jpg') }}", name: "Tectona grandis" },
+            { src: "{{ url_for('static', filename='Shorea_roxburghii.jpg') }}", name: "Shorea_roxburghii" },
+            { src: "{{ url_for('static', filename='Aquilaria_crassna.jpg') }}", name: "Aquilaria crassna" },
+        ],
+        central: [
+            { src: "{{ url_for('static', filename='Pterocarpus_macrocarpus.jpg') }}", name: "Pterocarpus macrocarpus" },
+            { src: "{{ url_for('static', filename='Dipterocarpus_alatus.jpg') }}", name: "Dipterocarpus alatus" },
+            { src: "{{ url_for('static', filename='Tectona_grandis.jpg') }}", name: "Tectona grandis" },
+            { src: "{{ url_for('static', filename='Shorea_roxburghii.jpg') }}", name: "Shorea_roxburghii" },
+            { src: "{{ url_for('static', filename='Aquilaria_crassna.jpg') }}", name: "Aquilaria crassna" },
+        ],
+        east: [
+            { src: "{{ url_for('static', filename='Pterocarpus_macrocarpus.jpg') }}", name: "Pterocarpus macrocarpus" },
+            { src: "{{ url_for('static', filename='Dipterocarpus_alatus.jpg') }}", name: "Dipterocarpus alatus" },
+            { src: "{{ url_for('static', filename='Tectona_grandis.jpg') }}", name: "Tectona grandis" },
+            { src: "{{ url_for('static', filename='Shorea_roxburghii.jpg') }}", name: "Shorea_roxburghii" },
+            { src: "{{ url_for('static', filename='Aquilaria_crassna.jpg') }}", name: "Aquilaria crassna" },
+        ],
+        south: [
+            { src: "{{ url_for('static', filename='Dipterocarpaceae.jpg') }}", name: "Dipterocarpaceae" },
+            { src: "{{ url_for('static', filename='Intsia_palembanica_Miq.jpg') }}", name: "Intsia palembanica Miq" },
+            { src: "{{ url_for('static', filename='Azadirachta_excelsa.jpg') }}", name: "Azadirachta excelsa" },
+            { src: "{{ url_for('static', filename='Fagraea_fragrans.jpg') }}", name: "Fagraea fragrans" },
+            { src: "{{ url_for('static', filename='Michelia_Champaca.jpg') }}", name: "Michelia Champaca" },
+        ]
+    };
+
+    let currentRegion = "north";
+    let currentIndex = 0;
+
+    function updatePlantImage(resetIndex = false) {
         const region = document.getElementById("region").value;
+        currentRegion = region;
+
+        if (resetIndex) {
+            currentIndex = 0; // Reset index when region changes
+        }
+
+        displayCurrentPlant();
+    }
+
+    function displayCurrentPlant() {
         const plantImage = document.getElementById("plant-image");
+        const plantName = document.getElementById("plant-name");
 
-        // Map region values to corresponding image filenames
-        const plantImages = {
-            north: "{{ url_for('static', filename='plants_north.jpg') }}",
-            northeast: "{{ url_for('static', filename='plants_northeast.jpg') }}",
-            west: "{{ url_for('static', filename='plants_west.jpg') }}",
-            central: "{{ url_for('static', filename='plants_central.jpg') }}",
-            east: "{{ url_for('static', filename='plants_east.jpg') }}",
-            south: "{{ url_for('static', filename='plants_south.jpg') }}"
-        };
+        if (plantData[currentRegion]) {
+            const plant = plantData[currentRegion][currentIndex];
+            plantImage.src = plant.src;
+            plantName.textContent = plant.name;
+        }
+    }
 
-        // Update the plant image based on the selected region
-        plantImage.src = plantImages[region];
+    function nextImage() {
+        if (plantData[currentRegion]) {
+            currentIndex = (currentIndex + 1) % plantData[currentRegion].length;
+            displayCurrentPlant();
+        }
+    }
+
+    function previousImage() {
+        if (plantData[currentRegion]) {
+            currentIndex = (currentIndex - 1 + plantData[currentRegion].length) % plantData[currentRegion].length;
+            displayCurrentPlant();
+        }
     }
 </script>
+
+<script>
+    // // Conversion factor: 1 tree offsets approximately 21.77 kg of CO₂ per year
+    // const CO2_OFFSET_PER_TREE = 21.77 / 1000; // Convert to kilotons
+
+    // Function to calculate the number of trees required
+    function calculateTreeCount() {
+        const co2Emission = parseFloat(document.getElementById("co2_emission").value);
+
+        if (isNaN(co2Emission) || co2Emission <= 0) {
+            alert("Please enter a valid CO₂ emission value.");
+            return;
+        }
+
+        // Subtract the fixed value from the CO₂ emission
+        const adjustedCO2Emission = co2Emission - 37966.599;
+
+        if (adjustedCO2Emission <= 0) {
+            document.getElementById("tree-count").textContent = "0 (Target already met)";
+            return;
+        }
+
+        // Constants for CO₂ offset per tree
+        const CO2_OFFSET_PER_TREE = 0.021;
+
+        // Calculate the number of trees required
+        const treeCount = Math.ceil(adjustedCO2Emission / CO2_OFFSET_PER_TREE);
+
+        // Update the output on the page
+        document.getElementById("tree-count").textContent = treeCount;
+    }
+
+</script>
+
 {% endblock %}
