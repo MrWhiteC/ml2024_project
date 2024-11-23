@@ -3,26 +3,30 @@
 {% block title %}Home - Carbon Neutrality{% endblock %}
 
 {% block content %}
-<!-- Row with left, center, and right columns -->
-<div class="row">
-    <!-- Left column for the image -->
-    <div class="col-md-4">
-        <img src="{{ url_for('static', filename='power_plant.jpg') }}" class="img-fluid mb-4 custom-img-size" alt="Power Plant">
-        <img src="{{ url_for('static', filename='smoke_stack.jpg') }}" class="img-fluid custom-img-size" alt="Smoke Stack">
-    </div>
-
-    <!-- Center column for the text, vertically centered -->
-    <div class="col-md-4">
-        <div>
-            <h1 class="display-4 mb-3">Carbon Neutrality</h1>
-            <p>Thailand’s government is focusing on achieving ‘Carbon Neutrality’ across all sectors, with the energy sector being the largest source of carbon dioxide (CO2) emissions, making up about 40% of the total. To reduce emissions, it’s important to analyze how different power plants use various fuels. Increased use of fossil fuels like coal and oil leads to higher emissions, while expanding renewable energy sources such as wind and solar can help lower them.</p>
-            <p>By understanding these relationships, the industry can develop effective strategies for carbon neutrality without major disruptions. One practical approach is afforestation, which involves planting trees to absorb CO2. This helps create a more accurate prediction of emissions and supports better decision-making for a sustainable energy future.</p>
+<!-- Container for the overall content, ensuring good spacing on the sides -->
+<div class="container py-5">
+    <div class="row align-items-center">
+        <!-- Left column for the image -->
+        <div class="col-md-4 mb-4 mb-md-0">
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='power_plant.jpg') }}" class="img-fluid rounded shadow-sm mb-4" alt="Power Plant">
+                <img src="{{ url_for('static', filename='smoke_stack.jpg') }}" class="img-fluid rounded shadow-sm" alt="Smoke Stack">
+            </div>
         </div>
-    </div>
 
-    <!-- Right column for the image -->
-    <div class="col-md-4">
-        <img src="{{ url_for('static', filename='forest.jpg') }}" class="img-fluid" alt="Forest">
+        <!-- Center column for the text, vertically centered -->
+        <div class="col-md-4">
+            <h1 class="display-4 font-weight-bold mb-4">Carbon Neutrality</h1>
+            <p class="lead text-muted mb-4">Thailand’s government is focusing on achieving ‘Carbon Neutrality’ across all sectors, with the energy sector being the largest source of carbon dioxide (CO2) emissions, making up about 40% of the total. To reduce emissions, it’s important to analyze how different power plants use various fuels. Increased use of fossil fuels like coal and oil leads to higher emissions, while expanding renewable energy sources such as wind and solar can help lower them.</p>
+            <p class="lead text-muted mb-4">By understanding these relationships, the industry can develop effective strategies for carbon neutrality without major disruptions. One practical approach is afforestation, which involves planting trees to absorb CO2. This helps create a more accurate prediction of emissions and supports better decision-making for a sustainable energy future.</p>
+        </div>
+
+        <!-- Right column for the image (make this image taller) -->
+        <div class="col-md-4">
+            <div class="image-right-container">
+                <img src="{{ url_for('static', filename='forest.jpg') }}" class="img-fluid rounded shadow-sm" alt="Forest">
+            </div>
+        </div>        
     </div>
 </div>
 {% endblock %}
