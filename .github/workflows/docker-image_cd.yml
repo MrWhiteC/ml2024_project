@@ -23,5 +23,5 @@ jobs:
     - name: Deleted Old docker container
       run: docker rm -f project2024_co2emission_container || true
     - name: Run Docker Container 
-      run: sudo docker run -d -p 8080:8080 --name roject2024_co2emission_container whitecat/project2024_co2emission
+      run: sudo docker run -d -p 8080:8080 --name project2024_co2emission_container whitecat/project2024_co2emission:v0.1
 
