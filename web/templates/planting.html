@@ -76,7 +76,7 @@
                 The energy industry sector emits <strong>40.05%</strong> of total carbon dioxide emissions in Thailand.
             </p>
             <p style="color: #000000;">
-                Therefore, the carbon dioxide that can be supported for the energy industry is <strong>37966.599 kilotons</strong>.
+                Therefore, the carbon dioxide that can be supported for the energy industry is <strong>37,966.599 kilotons</strong>.
             </p>
         </div>
 
@@ -202,5 +202,29 @@
     }
 
 </script>
+
+<script>
+    // Function to get URL query parameters
+    function getQueryParameter(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Function to clear query parameters from URL
+    function clearQueryParameters() {
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // Populate CO₂ emission input and clear query parameters
+    document.addEventListener("DOMContentLoaded", () => {
+        const co2Emission = getQueryParameter("co2_emission");
+        if (co2Emission) {
+            document.getElementById("co2_emission").value = co2Emission;
+            clearQueryParameters(); // Remove the query parameters
+        }
+    });
+</script>
+
+
 
 {% endblock %}

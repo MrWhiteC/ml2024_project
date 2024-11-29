@@ -108,4 +108,12 @@
         }
     }
 </script>
+
+<script>
+    function redirectToPlantingPage() {
+        const co2Emission = document.getElementById("co2_output").textContent;
+        window.location.href = `/planting?co2_emission=${encodeURIComponent(co2Emission)}`;
+    }
+</script>
+
 {% endblock %}
