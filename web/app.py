@@ -85,4 +85,8 @@ def planting():
     return render_template('planting.html')
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     app.run(debug=True,host='0.0.0.0',port=8080)
+=======
+    app.run(host='0.0.0.0', port=8080)
+>>>>>>> 628fc41b4382f30d58fef4cb8a4d8f5b482d404d
