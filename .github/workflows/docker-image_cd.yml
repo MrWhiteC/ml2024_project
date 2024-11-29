@@ -13,15 +13,11 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Login Dockerhub
-      env:
-        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Pull Docker Image
       run: sudo docker pull mrwhitecat/project2024_co2emission:v0.1
     - name: Deleted Old docker container
       run: docker rm -f project2024_co2emission_container || true
     - name: Run Docker Container 
-      run: sudo docker run -d -p 8080:8080 --name project2024_co2emission_container mrwhitecat/project2024_co2emission:v0.1
+      run: sudo docker run -d -h 0.0.0.0 -p 8080:8080 --name project2024_co2emission_container mrwhitecat/project2024_co2emission:v0.1
+
 
