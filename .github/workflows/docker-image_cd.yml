@@ -1,0 +1,22 @@
+name: Docker Image CD
+
+on:
+  workflow_run:
+    workflows: ["Docker Image CI"]
+    types:
+      - completed
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull Docker Image
+      run: sudo docker pull mrwhitecat/project2024_co2emission:v0.1
+    - name: Deleted Old docker container
+      run: docker rm -f project2024_co2emission_container || true
+    - name: Run Docker Container 
+      run: sudo docker run -d -p 8080:8080 --name roject2024_co2emission_container rwhitecat/project2024_co2emission
+
