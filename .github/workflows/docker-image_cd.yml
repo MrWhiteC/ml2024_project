@@ -17,8 +17,12 @@ jobs:
       run: sudo docker pull mrwhitecat/project2024_co2emission:v0.1
     - name: Deleted Old docker container
       run: docker rm -f project2024_co2emission_container || true
+    - name: Docker Compose Down
+      run: docker compose down || true
     - name: Run Docker Container 
       run: docker compose up -d
       # run: sudo docker run -d -h 0.0.0.0 -p 8080:8080 --name project2024_co2emission_container mrwhitecat/project2024_co2emission:v0.1
+
+      # docker system prune -a --volumes
 
 
