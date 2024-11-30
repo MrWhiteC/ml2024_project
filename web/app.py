@@ -80,5 +80,9 @@ def co2_emission():
 def planting():
     return render_template('planting.html')
 
+@app.route('/about_us')
+def about_us():
+    return render_template('about_us.html')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
