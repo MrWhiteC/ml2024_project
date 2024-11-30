@@ -1,6 +1,5 @@
 import unittest
-from app import app
-import CO2Predicting  # assuming your Flask app is in a file named app.py
+import app  # assuming your Flask app is in a file named app.py
 import json
 
 class FlaskAppTestCase(unittest.TestCase):

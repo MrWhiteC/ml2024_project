@@ -15,30 +15,47 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'  # Use the appropriate Python version
+        python-version: '3.10'
 
     # Install dependencies
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Ensure requirements.txt is in the root folder
+        pip install -r requirements.txt
+
+    # Upload model as artifact (if applicable, done during a prior build step)
+    - name: Upload CO2Predicting model
+      uses: actions/upload-artifact@v3
+      with:
+        name: CO2Predicting
+        path: web/CO2Predicting
+
+    # Download the model artifact
+    - name: Download CO2Predicting model
+      uses: actions/download-artifact@v3
+      with:
+        name: CO2Predicting
 
     # Run unit tests
     - name: Run unit tests
       run: |
-        python -m unittest discover -s web -p "test_app.py"  # Adjust path if necessary
+        python -m unittest discover -s web -p "test_app.py"
 
+    # Login Dockerhub
     - name: Login Dockerhub
       env:
         DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
+    # Build the Docker image
     - name: Build the Docker image
       run: docker build --file .Dockerfile -t mrwhitecat/project2024_co2emission:v0.1 .
 
+    # Push to Dockerhub
     - name: Push to Dockerhub
       run: docker push mrwhitecat/project2024_co2emission:v0.1
+
 
 
 #project2024_co2emission:$(date +%s)
