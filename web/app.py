@@ -4,12 +4,8 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Load the trained model and the pre-trained encoder (for one-hot encoding of month)
 with open('CO2Predicting', 'rb') as f:
     model = pickle.load(f)
-
-with open('merged_df_encoded.pkl', 'rb') as f:
-    encoder = pickle.load(f)
 
 # Load the scaler to standardize the features
 with open('scaler_standard.pkl', 'rb') as f:
