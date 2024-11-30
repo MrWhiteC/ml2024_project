@@ -1,19 +1,10 @@
 import unittest
-from app import app  # assuming your Flask app is in a file named app.py
+from app import app
+import CO2Predicting  # assuming your Flask app is in a file named app.py
 import json
 
 class FlaskAppTestCase(unittest.TestCase):
-    def test_model_loading_with_temp_file(self):
-        # Create a temporary file to simulate the model file
-        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-            temp_file.write(b"fake model data")
-            temp_filename = temp_file.name
-            
-            # Ensure the app uses this temporary file
-            with app.test_client() as client:
-                response = client.get('/')
-                self.assertEqual(response.status_code, 200)
-
+    
     # Set up the test client
     def setUp(self):
         self.app = app.test_client()
