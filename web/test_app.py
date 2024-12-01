@@ -8,7 +8,7 @@ from app import app  # assuming your Flask app is in a file named app.py
 model_path = 'web/CO2Predicting'  # Ensure the path is correct relative to the test file location
 model = pickle.load(open(model_path, 'rb'))
 
-scaler_path = 'web/scaler_standard.pkl'  # Ensure the path is correct
+scaler_path = 'web/scaler_minmax.pkl'  # Ensure the path is correct
 scaler = pickle.load(open(scaler_path, 'rb'))
 
 # Sample input data
@@ -29,8 +29,12 @@ renewable_input = (renewable_percentage / 100) * electricity_capacity_per_month
 hydro_input = (hydro_percentage / 100) * electricity_capacity_per_month
 
 # Create feature vector for model input
-sample = np.concatenate([np.array([coal_input, fuel_oil_input, hydro_input, natural_gas_input, renewable_input]), month_input])
-sample = sample.reshape(1, -1)
+sample = np.array([coal_input, fuel_oil_input, hydro_input, natural_gas_input, renewable_input] + month_input)
+sample = sample.reshape(1, -1)  # Reshape to match the model input format
+
+# Apply MinMax scaling to the features (same columns as the notebook)
+sample = scaler.transform(sample[:, :5])  # Only scale the first 5 features
+sample = np.concatenate([sample, sample[:, 5:]], axis=1)  # Add the month inputs back
 
 # Flask app test case
 class FlaskAppTestCase(unittest.TestCase):
@@ -52,3 +56,4 @@ class FlaskAppTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

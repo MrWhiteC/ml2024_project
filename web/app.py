@@ -1,17 +1,18 @@
 from flask import Flask, render_template, request, jsonify
 import pickle
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler
 
 app = Flask(__name__)
 
 # Load the trained model and the pre-trained encoder (for one-hot encoding of month)
 with open('CO2Predicting', 'rb') as f:
     model = pickle.load(f)
-    
-# Load the scaler to standardize the features
-with open('scaler_standard.pkl', 'rb') as f:
+
+# Load the scaler to standardize the features (MinMaxScaler)
+with open('scaler_minmax.pkl', 'rb') as f:
     scaler = pickle.load(f)
-    
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -74,16 +75,23 @@ def co2_emission():
             # Combine all inputs into a feature vector (5 power plant distribution features + 12 one-hot encoded month features)
             features = np.concatenate([np.array([coal_input, fuel_oil_input, hydro_input, natural_gas_input, renewable_input]), month_input])
 
-            # Ensure the features array is 2D (which is required by StandardScaler)
+            # Ensure the features array is 2D (required by StandardScaler)
             features = features.reshape(1, -1)
 
-            # Standardize the features using the scaler
-            features_scaled = scaler.transform(features)
+            # Apply MinMax scaling to the features, excluding the month-related part
+            # Extract only the power generation input features to scale
+            power_generation_inputs = features[:, :5]  # First 5 are power generation related
+
+            # Scale the power generation features
+            scaled_power_generation_inputs = scaler.transform(power_generation_inputs)
+
+            # Replace the original unscaled features with the scaled features
+            features[:, :5] = scaled_power_generation_inputs
 
             # Make the CO₂ emission prediction using the model
-            prediction = model.predict(features_scaled)
+            prediction = model.predict(features)
 
-            # Multiple month to year
+            # Multiply by 12.8099757426394 to convert to annual CO₂ emissions
             prediction = prediction * 12.8099757426394
 
             # Return the CO₂ emission result as JSON
