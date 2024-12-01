@@ -45,14 +45,14 @@ jobs:
     - name: Upload scaler model
       uses: actions/upload-artifact@v3
       with:
-        name: scaler_standard.pkl
-        path: web/scaler_standard.pkl
+        name: scaler_minmax.pkl
+        path: web/scaler_minmax.pkl
 
     # Download the model artifact
     - name: Download scaler model
       uses: actions/download-artifact@v3
       with:
-        name: scaler_standard.pkl
+        name: scaler_minmax.pkl
 
     # Run unit tests
     - name: Run unit tests
