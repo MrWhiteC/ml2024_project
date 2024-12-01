@@ -8,7 +8,7 @@ from app import app  # assuming your Flask app is in a file named app.py
 model_path = 'web/CO2Predicting'  # Ensure the path is correct relative to the test file location
 model = pickle.load(open(model_path, 'rb'))
 
-scaler_path = 'web/scaler_minmax'  # Ensure the path is correct
+scaler_path = 'web/scaler_minmax.pkl'  # Ensure the path is correct
 scaler = pickle.load(open(scaler_path, 'rb'))
 
 # Sample input data
