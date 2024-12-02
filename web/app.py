@@ -75,7 +75,7 @@ def co2_emission():
             # Combine all inputs into a feature vector (5 power plant distribution features + 12 one-hot encoded month features)
             features = np.concatenate([np.array([coal_input, fuel_oil_input, hydro_input, natural_gas_input, renewable_input]), month_input])
 
-            # Ensure the features array is 2D (required by StandardScaler)
+            # Ensure the features array is 2D (required by MinmaxScaler)
             features = features.reshape(1, -1)
 
             # Apply MinMax scaling to the features, excluding the month-related part
@@ -115,3 +115,5 @@ def about_us():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
+
+#Test web
